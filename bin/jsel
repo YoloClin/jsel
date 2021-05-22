@@ -1,0 +1,22 @@
+#!/usr/bin/python3
+import json
+import sys
+import argparse
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="JSON Selector")
+    parser.add_argument("path", type=str,
+                        help="The path to select. Cannot be List. example.foo.bar")
+    args = parser.parse_args()
+    return args
+
+if __name__ == "__main__":
+    args = parse_args()
+    path = args.path.split(".")
+    data = sys.stdin.read()
+    data = json.loads(data)
+    for i in path:
+        data = data[i]
+    print(data, end="")
+
